@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="QuestLab JavaScript assignment demonstrating a browser game, data-driven DOM rendering, and live form validation.">
+
+    <title>QuestLab | JavaScript Lab</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/app.js" defer></script>
+    <script src="js/task1-game.js" defer></script>
+    <script src="js/task2-board.js" defer></script>
+    <script src="js/task3-character.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="#home" aria-label="QuestLab home">
+            <span class="brand-mark">Q</span>
+            <span>QuestLab</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+            <a href="#game">Code Breaker</a>
+            <a href="#board">Quest Board</a>
+            <a href="#creator">Character Creator</a>
+        </nav>
+    </header>
+
+    <main id="home">
+        <!-- Hero Section -->
+        <section class="hero">
+            <p class="eyebrow">JAVASCRIPT BASICS · ASSIGNMENT 5</p>
+
+            <h1>Build your next <span>adventure.</span></h1>
+
+            <p>
+                Three interactive labs exploring conditions, arrays, DOM
+                manipulation, events, and accessible validation.
+            </p>
+
+            <a class="button button-primary" href="#game">
+                Start exploring <span aria-hidden="true">↓</span>
+            </a>
+        </section>
+
+        <!-- Task 1: Code Breaker -->
+        <section id="game" class="section-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TASK 1 · CONDITIONS & RANDOMNESS</p>
+                    <h2>Code Breaker</h2>
+                    <p class="muted">
+                        Crack the secret four-digit code. Digits never repeat.
+                    </p>
+                </div>
+
+                <span class="task-number">01</span>
+            </div>
+
+            <div class="game-layout">
+                <div class="game-panel">
+                    <div class="code-display" aria-hidden="true">
+                        <span>?</span>
+                        <span>?</span>
+                        <span>?</span>
+                        <span>?</span>
+                    </div>
+
+                    <p id="game-status" class="status-message" aria-live="polite">
+                        A secret code is ready. You have 8 attempts.
+                    </p>
+
+                    <form id="guess-form" class="guess-form">
+                        <label for="guess-input">Your 4-digit guess</label>
+
+                        <div class="input-row">
+                            <input
+                                id="guess-input"
+                                name="guess"
+                                inputmode="numeric"
+                                autocomplete="off"
+                                maxlength="4"
+                                placeholder="e.g. 5831"
+                                aria-describedby="guess-help"
+                            >
+
+                            <button class="button button-primary" type="submit">
+                                Guess
+                            </button>
+                        </div>
+
+                        <small id="guess-help">
+                            Use four different digits (0–9).
+                        </small>
+                    </form>
+
+                    <div class="game-stats">
+                        <div>
+                            <span>Attempts left</span>
+                            <strong id="attempts-left">8</strong>
+                        </div>
+
+                        <div>
+                            <span>Best result</span>
+                            <strong id="best-result">—</strong>
+                        </div>
+                    </div>
+
+                    <button
+                        id="restart-game"
+                        class="button button-secondary"
+                        type="button"
+                    >
+                        New game
+                    </button>
+                </div>
+
+                <div class="history-panel">
+                    <div class="panel-title">
+                        <h3>Guess history</h3>
+                        <span class="pill" id="history-count">0 guesses</span>
+                    </div>
+
+                    <ol id="guess-history" class="guess-history" aria-live="polite">
+                        <li class="empty-state">
+                            Your attempts will appear here.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Task 2: Quest Board -->
+        <section id="board" class="section-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TASK 2 · ARRAYS & DOM</p>
+                    <h2>Quest Board</h2>
+                    <p class="muted">
+                        Organize missions, filter by tag, and track completed work.
+                    </p>
+                </div>
+
+                <span class="task-number">02</span>
+            </div>
+
+            <div id="board-controls" class="board-controls"></div>
+
+            <div class="progress-wrap">
+                <div class="progress-label">
+                    <span>Quest progress</span>
+                    <strong id="progress-text">0% complete</strong>
+                </div>
+
+                <div
+                    class="progress-track"
+                    role="progressbar"
+                    aria-label="Completed quests"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    id="progress-bar"
+                >
+                    <span id="progress-fill"></span>
+                </div>
+            </div>
+
+            <p id="board-notice" class="notice" aria-live="polite"></p>
+
+            <div
+                id="kanban-board"
+                class="kanban-board"
+                aria-label="Quest columns"
+            ></div>
+        </section>
+
+        <!-- Task 3: Character Creator -->
+        <section id="creator" class="section-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TASK 3 · EVENTS & VALIDATION</p>
+                    <h2>Character Creator</h2>
+                    <p class="muted">
+                        Distribute exactly 20 skill points and build a valid hero.
+                    </p>
+                </div>
+
+                <span class="task-number">03</span>
+            </div>
+
+            <div class="creator-layout">
+                <form id="character-form" novalidate>
+                    <div
+                        id="form-summary"
+                        class="form-summary"
+                        tabindex="-1"
+                        hidden
+                    ></div>
+
+                    <div class="form-grid">
+                        <!-- Character Name -->
+                        <div class="field">
+                            <label for="character-name">Character name</label>
+
+                            <input
+                                id="character-name"
+                                name="name"
+                                required
+                                minlength="3"
+                                maxlength="16"
+                                autocomplete="off"
+                                placeholder="e.g. Nova"
+                            >
+
+                            <small class="field-error" id="name-error"></small>
+                        </div>
+
+                        <!-- Character Class -->
+                        <div class="field">
+                            <label for="character-class">Class</label>
+
+                            <select id="character-class" name="class" required>
+                                <option value="">Choose a class</option>
+                                <option value="Warrior">Warrior</option>
+                                <option value="Mage">Mage</option>
+                                <option value="Ranger">Ranger</option>
+                            </select>
+
+                            <small class="field-error" id="class-error"></small>
+                        </div>
+
+                        <!-- Card Color -->
+                        <div class="field">
+                            <label for="character-color">Card color</label>
+
+                            <select id="character-color" name="color" required>
+                                <option value="">Choose a color</option>
+                                <option value="violet">Violet</option>
+                                <option value="ocean">Ocean</option>
+                                <option value="ember">Ember</option>
+                            </select>
+
+                            <small class="field-error" id="color-error"></small>
+                        </div>
+
+                        <!-- Strength -->
+                        <div class="field">
+                            <label for="skill-strength">
+                                Strength <span class="range-hint">1–10</span>
+                            </label>
+
+                            <input
+                                id="skill-strength"
+                                name="strength"
+                                type="number"
+                                min="1"
+                                max="10"
+                                value="5"
+                                required
+                            >
+
+                            <small class="field-error" id="strength-error"></small>
+                        </div>
+
+                        <!-- Magic -->
+                        <div class="field">
+                            <label for="skill-magic">
+                                Magic <span class="range-hint">1–10</span>
+                            </label>
+
+                            <input
+                                id="skill-magic"
+                                name="magic"
+                                type="number"
+                                min="1"
+                                max="10"
+                                value="5"
+                                required
+                            >
+
+                            <small class="field-error" id="magic-error"></small>
+                        </div>
+
+                        <!-- Agility -->
+                        <div class="field">
+                            <label for="skill-agility">
+                                Agility <span class="range-hint">1–10</span>
+                            </label>
+
+                            <input
+                                id="skill-agility"
+                                name="agility"
+                                type="number"
+                                min="1"
+                                max="10"
+                                value="5"
+                                required
+                            >
+
+                            <small class="field-error" id="agility-error"></small>
+                        </div>
+
+                        <!-- Wisdom -->
+                        <div class="field">
+                            <label for="skill-wisdom">
+                                Wisdom <span class="range-hint">1–10</span>
+                            </label>
+
+                            <input
+                                id="skill-wisdom"
+                                name="wisdom"
+                                type="number"
+                                min="1"
+                                max="10"
+                                value="5"
+                                required
+                            >
+
+                            <small class="field-error" id="wisdom-error"></small>
+                        </div>
+                    </div>
+
+                    <!-- Skill Points Progress -->
+                    <div class="points-line">
+                        <span>Skill points used</span>
+                        <strong id="points-used">20 / 20</strong>
+                    </div>
+
+                    <div
+                        id="points-track"
+                        class="points-track"
+                        role="progressbar"
+                        aria-label="Skill points used"
+                        aria-valuemin="0"
+                        aria-valuemax="20"
+                        aria-valuenow="20"
+                    >
+                        <span id="points-fill"></span>
+                    </div>
+
+                    <button
+                        class="button button-primary submit-character"
+                        type="submit"
+                    >
+                        Create character
+                    </button>
+                </form>
+
+                <!-- Live Character Preview -->
+                <aside class="preview-column">
+                    <h3>Live preview</h3>
+
+                    <p class="muted small-copy">
+                        The preview updates as you type.
+                    </p>
+
+                    <div id="character-preview" class="character-card color-violet">
+                        <div class="avatar" aria-hidden="true">✦</div>
+
+                        <p class="character-class">Awaiting class</p>
+
+                        <h3 id="preview-name">Your hero</h3>
+
+                        <div class="preview-skills">
+                            <div>
+                                <span>Strength</span>
+                                <strong id="preview-strength">5</strong>
+                            </div>
+
+                            <div>
+                                <span>Magic</span>
+                                <strong id="preview-magic">5</strong>
+                            </div>
+
+                            <div>
+                                <span>Agility</span>
+                                <strong id="preview-agility">5</strong>
+                            </div>
+
+                            <div>
+                                <span>Wisdom</span>
+                                <strong id="preview-wisdom">5</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="character-result" aria-live="polite"></div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>QuestLab</span>
+        <span>Made for Assignment 5 · DOM Manipulation & Events</span>
+    </footer>
+</body>
+</html>
